@@ -1,9 +1,4 @@
-/*
-    学籍番号 : 11870273
-    名前     : 宮本 拓実
-    課題     : list 7-2
-    作成日   : 2018/
-*/
+
 
 #include<stdio.h>
 #include<limits.h>
