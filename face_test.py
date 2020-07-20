@@ -20,6 +20,8 @@ image = cv2.imread(image_path)
 #グレースケール変換
 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+
+
 #カスケード分類器の特徴量を取得する
 cascade = cv2.CascadeClassifier(cascade_path)
 
