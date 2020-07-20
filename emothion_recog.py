@@ -2,13 +2,13 @@ import keras
 import numpy as np
 
 
-# 64*64 grayscale
+# 64*64 grayscale 1~255
 def emotion_recog(img):
     f = open('fer2013_big_XCEPTION.54-0.66.config')
-        emotions = f.readline().split('\t')
+    emotions = f.readline().split('\t')
 
     img = [img]
-    img = np.array(img)
+    img = np.array(img).astype("float32") / 255.0
     img = img[..., np.newaxis]
     #   https://github.com/oarriaga/face_classification
     model = keras.models.load_model('fer2013_big_XCEPTION.54-0.66.hdf5', compile=False)
