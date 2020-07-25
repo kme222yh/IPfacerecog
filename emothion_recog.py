@@ -7,9 +7,9 @@ def emotion_recog(img):
     f = open('fer2013_big_XCEPTION.54-0.66.config')
     emotions = f.readline().split('\t')
 
-    img = [img]
-    img = np.array(img).astype("float32") / 255.0
-    img = img[..., np.newaxis]
+    # img = [img]
+    # img = np.array(img).astype("float32")
+    # img = img[..., np.newaxis]
     #   https://github.com/oarriaga/face_classification
     model = keras.models.load_model('fer2013_big_XCEPTION.54-0.66.hdf5', compile=False)
     result = model.predict(img)

@@ -8,8 +8,11 @@ import cv2
 cascade_path = "haarcascade_frontalface_default.xml"
 
 
+from emothion_recog import emotion_recog
+
+
 # 使用ファイルと入出力ディレクトリ
-image_file = "img_87a61102fe8ab60b4576b36a570ebd50271559.jpg"
+image_file = "abe.jpg"
 image_path = "./inputs/" + image_file
 output_path = "./outputs/" + image_file
 
@@ -47,6 +50,8 @@ if len(facerect) > 0:
         result = 1 - np.argmax(result, axis=1)
         if result[0]:
             cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(image,emotion_recog(x_data),(rect[0],rect[1]+rect[3]+30),font,1,color,2,cv2.LINE_AA)
     #認識結果の保存
     cv2.imwrite(output_path, image)
 
