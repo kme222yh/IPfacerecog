@@ -2,12 +2,14 @@
 #参考という名のコピペ
 #https://qiita.com/FukuharaYohei/items/ec6dce7cc5ea21a51a82
 
+import keras.models
+import numpy as np
 import cv2
 cascade_path = "haarcascade_frontalface_default.xml"
 
 
 # 使用ファイルと入出力ディレクトリ
-image_file = "abe.jpg"
+image_file = "img_87a61102fe8ab60b4576b36a570ebd50271559.jpg"
 image_path = "./inputs/" + image_file
 output_path = "./outputs/" + image_file
 
@@ -33,11 +35,18 @@ facerect = cascade.detectMultiScale(image_gray, scaleFactor=1.1, minNeighbors=2,
 
 color = (255, 255, 255) #白
 
+model = keras.models.load_model('./is_face.h5', compile=False)
+
 # 検出した場合
 if len(facerect) > 0:
     #検出した顔を囲む矩形の作成
     for rect in facerect:
-        cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
+        x_data = np.asarray([cv2.resize(image_gray[rect[1]:rect[1]+rect[3], rect[0]:rect[0]+rect[2]], (64, 64))]) / 255.0
+        x_data = x_data[..., np.newaxis]
+        result = model.predict(x_data)
+        result = 1 - np.argmax(result, axis=1)
+        if result[0]:
+            cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
     #認識結果の保存
     cv2.imwrite(output_path, image)
 
